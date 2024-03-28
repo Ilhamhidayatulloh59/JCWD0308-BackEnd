@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Gojek",
+    "category": "Transportation",
+    "nominal": 20000,
+    "date": "2024-02-01"
+  },
+  {
+    "id": 2,
+    "name": "Ayam Geprek",
+    "category": "Food",
+    "nominal": 30000,
+    "date": "2024-02-02"
+  },
+  {
+    "id": 3,
+    "name": "Grab",
+    "category": "Transportation",
+    "nominal": 10000,
+    "date": "2024-02-03"
+  },
+  {
+    "id": 4,
+    "name": "Batagor",
+    "category": "Food",
+    "nominal": 15000,
+    "date": "2024-02-15"
+  }
+]
