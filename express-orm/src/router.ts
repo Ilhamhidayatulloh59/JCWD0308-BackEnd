@@ -1,5 +1,7 @@
 import { Request, Response, Router } from 'express'
 import { userRouter } from './routers/user.router'
+import { productRouter } from './routers/product.router'
+import { cartRouter } from './routers/cart.router'
 
 const router = Router()
 
@@ -12,5 +14,7 @@ router.get('/', (req: Request, res: Response) => {
 })
 
 router.use('/users', userRouter)
+router.use('/products', productRouter)
+router.use('/carts', cartRouter)
 
 export default router
