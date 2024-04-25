@@ -20,13 +20,14 @@ enum CategoryBlog {
 }
 
 model Author {
-  id        Int     @id @default(autoincrement())
-  name      String
-  email     String
-  image     String? @db.LongText
-  password  String  @db.LongText
-  isSuspend Boolean @default(false)
-  blog      Blog[]
+  id           Int     @id @default(autoincrement())
+  name         String
+  email        String
+  image        String? @db.LongText
+  password     String  @db.LongText
+  isActive     Boolean @default(false)
+  loginAttempt Int     @default(0)
+  blog         Blog[]
 }
 
 model Blog {
