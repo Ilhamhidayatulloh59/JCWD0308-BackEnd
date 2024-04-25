@@ -47,17 +47,14 @@ export const getBlogSlug = async (req: Request, res: Response) => {
             where: {
                 slug: req.params.slug
             },
-            select: {
-                author: true
-            },
-            // include: {
-            //     author: {
-            //         select: {
-            //             name: true,
-            //             email: true
-            //         }
-            //     }
-            // }
+            include: {
+                author: {
+                    select: {
+                        name: true,
+                        email: true
+                    }
+                }
+            }
         })
         res.status(200).send({
             status: 'ok',
