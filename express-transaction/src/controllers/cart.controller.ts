@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 import { responseError } from '../helpers/responseError'
+import { createCart, findCart } from '../services/cart.service'
 
 const prisma = new PrismaClient()
 
@@ -8,14 +9,10 @@ export const addToCart = async (req: Request, res: Response) => {
     try {
         const { productId, quantity } = req.body
 
-        let cart = await prisma.cart.findUnique({
-            where: { userId: req.user?.id }
-        })
+        let cart = await findCart(req)
 
         if (!cart) {
-            cart = await prisma.cart.create({
-                data: { userId: req.user?.id || 0 }
-            })
+            cart = await createCart({ userId: req.user?.id || 0 })
         }
 
         let cartItem = await prisma.cartItem.findFirst({

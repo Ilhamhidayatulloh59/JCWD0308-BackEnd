@@ -1,24 +1,19 @@
 import { Request, Response } from "express";
 import { responseError } from "../helpers/responseError";
-import { PrismaClient } from '@prisma/client'
 import { genSalt, hash, compare } from 'bcrypt'
 import { generateToken } from "../helpers/generateToken";
-
-const prisma = new PrismaClient()
+import { createUser, findUserEmail } from "../services/user.service";
 
 export const regUser = async (req: Request, res: Response) => {
     try {
-        console.log(req.body);
         
         const { password } = req.body
         const salt = await genSalt(10)
         const hashPassword = await hash(password, salt)
 
-        const users = await prisma.user.create({
-            data: {
-                ...req.body,
-                password: hashPassword
-            }
+        const users = await createUser({
+            ...req.body,
+            password: hashPassword
         })
 
         res.status(201).send({
@@ -34,9 +29,7 @@ export const regUser = async (req: Request, res: Response) => {
 export const loginUser = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body
-        const users = await prisma.user.findUnique({
-            where: { email }
-        })
+        const users = await findUserEmail(email)
 
         if (!users) throw 'user not found!'
 

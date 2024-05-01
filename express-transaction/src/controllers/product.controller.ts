@@ -1,14 +1,10 @@
 import { Request, Response } from 'express'
-import { PrismaClient } from '@prisma/client'
 import { responseError } from '../helpers/responseError'
-
-const prisma = new PrismaClient()
+import { addProduct, selectProduct } from '../services/product.service'
 
 export const createProduct = async (req: Request, res: Response) => {
     try {
-        const product = await prisma.product.create({
-            data: req.body
-        })
+        const product = await addProduct(req.body)
         res.status(200).send({
             status: 'ok',
             product
@@ -20,7 +16,7 @@ export const createProduct = async (req: Request, res: Response) => {
 
 export const getProduct = async (req: Request, res: Response) => {
     try {
-        const products = await prisma.product.findMany()
+        const products = await selectProduct()
         res.status(200).send({
             status: 'ok',
             products
