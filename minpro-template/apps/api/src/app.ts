@@ -4,8 +4,7 @@ import express, {
   Express,
   Request,
   Response,
-  NextFunction,
-  Router,
+  NextFunction
 } from 'express';
 import cors from 'cors';
 import { PORT } from './config';

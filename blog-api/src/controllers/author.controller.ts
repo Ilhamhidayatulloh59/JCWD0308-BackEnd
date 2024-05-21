@@ -6,6 +6,7 @@ import path from 'path'
 import fs from 'fs'
 import handlebars from 'handlebars'
 import { transporter } from '../helpers/nodemailer'
+import { generateInvoicePdf } from '../helpers/pdf'
 
 const prisma = new PrismaClient()
 
@@ -21,6 +22,8 @@ export const registerAuthor = async (req: Request, res: Response) => {
                 password: hashPassword
             }
         })
+
+        const pdf = await generateInvoicePdf(author.name)
 
         const payload = {
             id: author.id
@@ -40,6 +43,7 @@ export const registerAuthor = async (req: Request, res: Response) => {
             from: "ilham@purwadhika.com",
             to: author.email,
             subject: "Welcome to My Blog",
+            attachments: [{ path: pdf }],
             html
         })
 
@@ -91,6 +95,7 @@ export const keepLogin = async (req: Request, res: Response) => {
         const author = await prisma.author.findFirst({
             where: { id: req.author?.id }
         })
+        
         res.status(200).send({
             status: 'ok',
             author
@@ -129,18 +134,18 @@ export const verifyAuthor = async (req: Request, res: Response) => {
 
 export const imageAuthor = async (req: Request, res: Response) => {
     try {
-        const { file } = req
-        if (!file) throw "No File Uploaded!"
-        const imageUrl = `http://localhost:8000/public/images/${file.filename}`
+        // const { file } = req
+        // if (!file) throw "No File Uploaded!"
+        // const imageUrl = `http://localhost:8000/public/images/${file.filename}`
 
-        await prisma.author.update({
-            data: {
-                image: imageUrl
-            },
-            where: {
-                id: req.author?.id
-            }
-        })
+        // await prisma.author.update({
+        //     data: {
+        //         image: imageUrl
+        //     },
+        //     where: {
+        //         id: req.author?.id
+        //     }
+        // })
 
         res.status(200).send({
             status: 'ok',
